@@ -17,7 +17,7 @@ import CheckAuth from "./components/common/CheckAuth"
 import Unauth from "./pages/un-auth"
 
 const App = () => {
-  const isAuthenticated = true;
+  const isAuthenticated = false;
    const user = {
     name : "hassan",
     role : "user"
