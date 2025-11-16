@@ -3,12 +3,13 @@ const cookieParser = require('cookie-parser');
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const authRouter = require("./routes/auth/auth-routes")
 
 // Create express app
 const app = express();
 
 // MongoDB connection
-mongoose.connect("mongodb+srv://hassanmunir083:1234@cluster0.uve9sft.mongodb.net/", {
+mongoose.connect("mongodb+srv://hassanmunir083_db_user:1234@cluster0.gwipdse.mongodb.net/", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })
@@ -19,6 +20,7 @@ mongoose.connect("mongodb+srv://hassanmunir083:1234@cluster0.uve9sft.mongodb.net
 app.use(
     cors({
         origin: "http://localhost:5173", // remove space
+        
         methods: ['GET', 'POST', 'DELETE', 'PUT'],
         allowedHeaders: [
             "Content-Type",
@@ -33,6 +35,7 @@ app.use(
 
 app.use(cookieParser()); // call it as a function
 app.use(express.json());
+app.use("/api/auth", authRouter);
 
 
 
