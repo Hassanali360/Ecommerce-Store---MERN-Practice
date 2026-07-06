@@ -28,52 +28,57 @@ const App = () => {
 
     <div className="flex flex-col overflow-hidden bg-white">
       <Routes>
-        {/* Redirect root "/" to "/auth/login" */}
-        <Route path="/" element={<Navigate to="/" replace />} />
+  {/* Redirect root "/" to "/auth/login" */}
+  <Route path="/" element={<Navigate to="/auth/login" replace />} />
 
-        {/* Auth routes */}
-        <Route path="/auth" element={
-          <CheckAuth 
-          isAuthenticated={isAuthenticated}
-          user={user}
-          >
-          <Layout/>
-        </CheckAuth>}>
-          <Route path="login" element={<Login />} />
-          <Route path="register" element={<Register />} />
-        </Route>
+  {/* Auth routes */}
+  <Route
+    path="/auth"
+    element={
+      <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+        <Layout />
+      </CheckAuth>
+    }
+  >
+    <Route path="login" element={<Login />} />
+    <Route path="register" element={<Register />} />
+  </Route>
 
-        {/* Admin routes */}
-        <Route path="/admin" element={
-          <CheckAuth
-          isAuthenticated={isAuthenticated}
-          user={user}
-          >
-            <AdminLayout /> 
-          </CheckAuth>}>
-          <Route path="dashboard" element={<AdminDashboard />} />
-          <Route path="products" element={<AdminProducts />} />
-          <Route path="orders" element={<AdminOrder />} />
-          <Route path="features" element={<Adminfeatures />} />
-        </Route>
-               {/* shopping routes */}
-        <Route path="/shop" element= {
-          <CheckAuth 
-           isAuthenticated={isAuthenticated}
-          user={user}>
-            <ShoppingLayout/>
-          </CheckAuth>
-        }>
-           
-            <Route path="home" element={<Shoppinghome/>}/>
-            <Route path="listing" element={<ShoppingListing/>}/>
-            <Route path="Accounts" element={<ShoppingAccounts/>}/>
-            <Route path="checkout" element={<ShopingCheckout/>}/>
-        </Route>
-         <Route path="*" element={<Notfound/>}/>
-         <Route path="/unauthpage" element={<Unauth/>}/>
-         
-      </Routes>
+  {/* Admin routes */}
+  <Route
+    path="/admin"
+    element={
+      <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+        <AdminLayout />
+      </CheckAuth>
+    }
+  >
+    <Route path="dashboard" element={<AdminDashboard />} />
+    <Route path="products" element={<AdminProducts />} />
+    <Route path="orders" element={<AdminOrder />} />
+    <Route path="features" element={<Adminfeatures />} />
+  </Route>
+
+  {/* Shopping routes */}
+  <Route
+    path="/shop"
+    element={
+      <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+        <ShoppingLayout />
+      </CheckAuth>
+    }
+  >
+    <Route path="home" element={<Shoppinghome />} />
+    <Route path="listing" element={<ShoppingListing />} />
+    <Route path="accounts" element={<ShoppingAccounts />} />
+    <Route path="checkout" element={<ShopingCheckout />} />
+  </Route>
+
+  {/* Not found + unauthorized */}
+  <Route path="/unauthpage" element={<Unauth />} />
+  <Route path="*" element={<Notfound />} />
+</Routes>
+
     </div>
   )
 }

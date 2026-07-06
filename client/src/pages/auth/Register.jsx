@@ -1,26 +1,45 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
-import Form from '@/components/common/Form'
-import { registerformControls } from '@/config'
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { registerUser } from "@/store/auth-slice";
+import Form from "@/components/common/Form";
+import { registerformControls } from "@/config";
+import { toast, Toaster } from "react-hot-toast";
 
 const initialState = {
   userName: "",
   email: "",
   password: "",
-}
+};
 
 const Register = () => {
-  const [formData, setFormData] = useState(initialState)
+  const [formData, setFormData] = useState(initialState);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  // ✅ Define the function properly
-  const onSubmit = (e) => {
-    e.preventDefault()
-    console.log("Form submitted:", formData)
-    // You can add API call or validation logic here
-  }
+  const onSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      const result = await dispatch(registerUser(formData));
+
+      if (result?.payload?.success) {
+        toast.success(result?.payload?.message || "Registration Successful");
+        navigate("/auth/login");
+      } else {
+        toast.error(result?.payload?.message || "Registration Failed");
+      }
+    } catch (error) {
+      console.error("Registration Error:", error);
+      toast.error("Something went wrong. Please try again.");
+    }
+  };
 
   return (
     <div className="mx-auto w-full max-w-md space-y-6">
+      {/* Toast container */}
+      <Toaster position="top-right" reverseOrder={false} />
+
       <div className="text-center">
         <h1 className="text-3xl font-bold tracking-tight text-foreground">
           Create New Account
@@ -41,10 +60,10 @@ const Register = () => {
         buttontext="Sign Up"
         formData={formData}
         setFormData={setFormData}
-        onSubmit={onSubmit} // ✅ correctly passed
+        onSubmit={onSubmit}
       />
     </div>
-  )
-}
+  );
+};
 
-export default Register
+export default Register;
